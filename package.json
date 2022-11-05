@@ -1,0 +1,32 @@
+{
+  "name": "androidadbtools",
+  "version": "1.0.0",
+  "description": "Graphical Android ADB tools",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmvanheusden/AndroidADBTools.git"
+  },
+  "keywords": [
+    "adb",
+    "android",
+    "electron"
+  ],
+  "author": "mmvanheusden",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmvanheusden/AndroidADBTools/issues"
+  },
+  "homepage": "https://github.com/mmvanheusden/AndroidADBTools#readme",
+  "devDependencies": {
+    "electron": "^21.2.2",
+    "eslint": "^8.26.0"
+  },
+  "dependencies": {
+    "follow-redirects": "^1.15.2"
+  }
+}
