@@ -98,11 +98,11 @@ function unzip(file, target) {
 function runCommand(command) {
 	return new Promise((resolve, reject) => {
 		const {exec} = require("child_process")
-		exec(command, function (error) {
+		exec(command, function (error, stdout) {
 			if (error) {
 				const msg = "Running command failed with error:\n" + error
 				reject(msg)
-			} else resolve()
+			} else resolve(stdout)
 		})
 	})
 }
@@ -125,4 +125,27 @@ const platformpath = () => {
 	}
 }
 
-module.exports = {preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath}
+const createADBCommand = () => {
+	// Import path so \ can be put in a string
+	const path = require("path")
+
+	// The final command to run, returned by this function
+	if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
+		return "gnome-terminal -e 'bash -c \"sudo adb start-server\"'"
+	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
+		return "start cmd.exe /k runas /noprofile /user:Administrator adb start-server" //todo test
+	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
+		return "osascript -c 'tell application \"Terminal\" to do script 'sudo adb start-server'"
+	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
+		return "konsole -e \"sudo adb start-server\""
+	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
+		return "xfce4-terminal -e \"sudo adb start-server\""
+	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
+		return "terminator -e 'bash -c \"sudo adb start-server\"'"
+	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
+		console.log("COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\nsudo adb start-server")
+		return "echo hello"
+	}
+}
+
+module.exports = {runCommand, platformpath, createADBCommand}
